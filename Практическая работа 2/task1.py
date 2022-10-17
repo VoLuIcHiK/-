@@ -1,6 +1,13 @@
 import random
 
 class Statistics:
+    '''Класс 'Стистика' для генерирования республик и их характеристик,
+    а также для поиска самых развитых, наименеее развитых и сбалансированно развитых отраслей республик, где
+    republics - массив республик (объектов класса Statistics),
+    most_developed - переменная для хранения наиболее развитой области,
+    least_developed - переменная для хранения наименее развитой области,
+    balanced_developed - переменная для хранения сбалансированно развитых областей,
+    '''
 
     def __init__(self):
         self.name = None
@@ -9,12 +16,18 @@ class Statistics:
 
     @staticmethod
     def check_republics(buf, republics):
+        '''Метод для проверки на повтор сгенерированного названия республики, где
+        buf - новая сгенерированная республика,
+        republics - массив с уже созданными республиками
+        '''
         for i in range(len(republics)):
             if buf == republics[i].name:
                 return False
         return True
 
     def create_republics(self, num):
+        '''Метод генерация республик
+        '''
         names = ['Белорусская ССР', 'Узбекская ССР', 'Казахская ССР', 'Грузинская ССР', 'Азербайджанская ССР',
                  'Литовская ССР', 'Молдавская ССР', 'Латвийская ССР', 'Киргизская ССР', 'Таджикская ССР',
                  'Армянская ССР', 'Туркменская ССР', 'Эстонская ССР']
@@ -34,6 +47,7 @@ class Statistics:
 
     @staticmethod
     def assign_values(republics):
+        '''Метод генерации отраслец для каждой республики'''
         industries = {'Сельское хозяйство': 0, 'Легкая промышленность': 0, 'Тяжелая промышленность группы А': 0,
                       'Тяжелая промышленность группы Б': 0, 'Военно промышленный комплекс': 0, 'Наука': 0,
                       'Химическая промышленность': 0}
@@ -43,13 +57,13 @@ class Statistics:
         return republics
 
     def find_most_industries(self, republics):
+        '''Метод поиска самых развитых, наименеее развитых и сбалансированно развитых отраслей республик'''
         industries = {'Сельское хозяйство': 0, 'Легкая промышленность': 0, 'Тяжелая промышленность группы А': 0,
                       'Тяжелая промышленность группы Б': 0, 'Военно промышленный комплекс': 0, 'Наука': 0,
                       'Химическая промышленность': 0}
         for i in range(len(republics)):
             for k in republics[i].industries:
                 industries[k] += republics[i].industries[k]
-        print(industries)
         most_developed = max(industries, key=industries.get)
         least_developed = min(industries, key=industries.get)
         balanced_developed = [k for k in industries if industries[k] == 0]
@@ -62,6 +76,7 @@ class Statistics:
 
     @staticmethod
     def find_most_republics(republics, most_developed, least_developed, balanced_developed):
+        '''Метод поиска республик сильно развитых, отстающих в развитии или сбалансированно развитых в отраслях'''
         count = 0
         for i in range(len(republics)):
             if republics[i].industries[most_developed] == 1:
@@ -82,6 +97,7 @@ class Statistics:
 
     @staticmethod
     def statistics(republics):
+        '''Метод создания статистики по всем отраслям'''
         print('Стистика по отраслям: ')
         keys = ['Сельское хозяйство', 'Легкая промышленность', 'Тяжелая промышленность группы А',
                 'Тяжелая промышленность группы Б', 'Военно промышленный комплекс', 'Наука',
