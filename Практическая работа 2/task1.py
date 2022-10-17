@@ -52,9 +52,46 @@ class Statistics:
         print(industries)
         most_developed = max(industries, key=industries.get)
         least_developed = min(industries, key=industries.get)
+        balanced_developed = [k for k in industries if industries[k] == 0]
         print('Самая развитая отрасль: ', most_developed)
         print('Самая отстающая отрасль: ', least_developed)
-        return most_developed, least_developed
+        print('Самые сбалансированн-ая/-ые отрасл-ь/-и: ', balanced_developed)
+        self.find_most_republics(republics, most_developed, least_developed, balanced_developed)
+        self.statistics(republics)
+        return most_developed, least_developed, balanced_developed
+
+    @staticmethod
+    def find_most_republics(republics, most_developed, least_developed, balanced_developed):
+        count = 0
+        for i in range(len(republics)):
+            if republics[i].industries[most_developed] == 1:
+                count += 1
+        print('Кол-во развитых республик в отрасли \'{0}\' равно {1}'.format(most_developed, count))
+        count = 0
+        for i in range(len(republics)):
+            if republics[i].industries[least_developed] == -1:
+                count += 1
+        print('Кол-во отстающих республик в отрасли \'{0}\' равно {1}'.format(least_developed, count))
+        count = 0
+        for i in range(len(republics)):
+            for j in range(len(balanced_developed)):
+                if republics[i].industries[balanced_developed[j]] == 0:
+                    count += 1
+
+        print('Кол-во сбалансированных республик в отрасл-и/-ях {0} равно {1}'.format(balanced_developed, count))
+
+    @staticmethod
+    def statistics(republics):
+        print('Стистика по отраслям: ')
+        keys = ['Сельское хозяйство', 'Легкая промышленность', 'Тяжелая промышленность группы А',
+                'Тяжелая промышленность группы Б', 'Военно промышленный комплекс', 'Наука',
+                'Химическая промышленность']
+        for k in keys:
+            count = 0
+            for i in range(len(republics)):
+                if republics[i].industries[k] == -1 or republics[i].industries[k] == 1:
+                    count += 1
+            print('{0}: {1}'.format(k, count))
 
     @staticmethod
     def output(republics):
@@ -65,6 +102,6 @@ class Statistics:
 
 st = Statistics()
 republics = st.create_republics(4)
-m, l = st.find_most_industries(republics)
+m, l, b = st.find_most_industries(republics)
 
 
